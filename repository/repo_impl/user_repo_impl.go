@@ -5,8 +5,10 @@ import (
 	"backend-github-trending/log"
 	"backend-github-trending/exception"
 	"backend-github-trending/model"
+	"backend-github-trending/model/req"
 	"backend-github-trending/repository"
 	"context"
+	"database/sql"
 	"github.com/lib/pq"
 	"time"
 )
@@ -21,7 +23,7 @@ func NewUserRepo(sql *db.Sql) repository.UserRepo {
 	}
 }
 
-func (u UserRepoImpl) SaveUser(ctx context.Context, user model.User) (model.User, error) {
+func (u *UserRepoImpl) SaveUser(ctx context.Context, user model.User) (model.User, error) {
 	statement := `
 		INSERT INTO users(user_id, full_name, email, password, role, created_at, updated_at)
 		VALUES (:user_id, :full_name, :email, :password, :role, :created_at, :updated_at)
@@ -39,6 +41,21 @@ func (u UserRepoImpl) SaveUser(ctx context.Context, user model.User) (model.User
 			}
 		}
 		return user, exception.SignUpFail
+	}
+
+	return user, nil
+}
+
+func (u *UserRepoImpl) CheckLogin(ctx context.Context, loginReq req.RepSignIn) (model.User, error) {
+	var user = model.User{}
+	err := u.sql.Db.GetContext(ctx, &user,"SELECT * FROM users WHERE email=$1", loginReq.Email)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return user, exception.UserNotFound
+		}
+		log.Error(err.Error())
+		return user, err
 	}
 
 	return user, nil

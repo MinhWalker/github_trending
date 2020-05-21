@@ -1,0 +1,4 @@
+time="2020-05-21T22:14:27.768581+07:00" level=error msg="pq: duplicate key value violates unique constraint \"users_email_key\"" file=/Users/hoangminh/Documents/Golang/backend-github-trending/repository/repo_impl/user_repo_impl.go line=35
+time="2020-05-21T23:47:59.19805+07:00" level=error msg="pq: syntax error at or near \"minhnh99\"" file=/Users/hoangminh/Documents/Golang/backend-github-trending/repository/repo_impl/user_repo_impl.go line=57
+time="2020-05-21T23:49:37.07925+07:00" level=error msg="pq: duplicate key value violates unique constraint \"users_email_key\"" file=/Users/hoangminh/Documents/Golang/backend-github-trending/repository/repo_impl/user_repo_impl.go line=37
+time="2020-05-21T23:50:25.619868+07:00" level=error msg="pq: duplicate key value violates unique constraint \"users_email_key\"" file=/Users/hoangminh/Documents/Golang/backend-github-trending/repository/repo_impl/user_repo_impl.go line=37
