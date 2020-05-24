@@ -2,8 +2,8 @@ package repo_impl
 
 import (
 	"backend-github-trending/db"
-	"backend-github-trending/log"
 	"backend-github-trending/exception"
+	"backend-github-trending/log"
 	"backend-github-trending/model"
 	"backend-github-trending/model/req"
 	"backend-github-trending/repository"
@@ -48,7 +48,7 @@ func (u *UserRepoImpl) SaveUser(ctx context.Context, user model.User) (model.Use
 
 func (u *UserRepoImpl) CheckLogin(ctx context.Context, loginReq req.RepSignIn) (model.User, error) {
 	var user = model.User{}
-	err := u.sql.Db.GetContext(ctx, &user,"SELECT * FROM users WHERE email=$1", loginReq.Email)
+	err := u.sql.Db.GetContext(ctx, &user, "SELECT * FROM users WHERE email=$1", loginReq.Email)
 
 	if err != nil {
 		if err == sql.ErrNoRows {

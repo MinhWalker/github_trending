@@ -34,5 +34,3 @@ func ComparePasswords(hashedPwd string, plainPwd []byte) bool {
 
 	return true
 }
-
-

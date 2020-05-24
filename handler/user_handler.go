@@ -6,7 +6,6 @@ import (
 	req "backend-github-trending/model/req"
 	"backend-github-trending/repository"
 	"backend-github-trending/security"
-	validator "github.com/go-playground/validator/v10"
 	uuid "github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"net/http"
@@ -22,18 +21,17 @@ func (u *UserHandler) HandleSignup(c echo.Context) error {
 		log.Error(err.Error())
 		return c.JSON(http.StatusBadRequest, model.Response{
 			StatusCode: http.StatusBadRequest,
-			Message: err.Error(),
-			Data: nil,
+			Message:    err.Error(),
+			Data:       nil,
 		})
 	}
 
-	validate := validator.New()
-	if err := validate.Struct(req); err != nil {
+	if err := c.Validate(req); err != nil {
 		log.Error(err.Error())
 		return c.JSON(http.StatusBadRequest, model.Response{
 			StatusCode: http.StatusBadRequest,
-			Message: err.Error(),
-			Data: nil,
+			Message:    err.Error(),
+			Data:       nil,
 		})
 	}
 
@@ -45,56 +43,65 @@ func (u *UserHandler) HandleSignup(c echo.Context) error {
 		log.Error(err.Error())
 		return c.JSON(http.StatusForbidden, model.Response{
 			StatusCode: http.StatusForbidden,
-			Message: err.Error(),
-			Data: nil,
+			Message:    err.Error(),
+			Data:       nil,
 		})
 	}
 
 	user := model.User{
-		UserId:    userId.String(),
-		FullName:  req.FullName,
-		Email:     req.Email,
-		Password:  hash,
-		Role:      role,
-		Token:     "",
+		UserId:   userId.String(),
+		FullName: req.FullName,
+		Email:    req.Email,
+		Password: hash,
+		Role:     role,
+		Token:    "",
 	}
 
 	user, err = u.UserRepo.SaveUser(c.Request().Context(), user)
 	if err != nil {
 		return c.JSON(http.StatusConflict, model.Response{
 			StatusCode: http.StatusConflict,
-			Message: err.Error(),
-			Data: nil,
+			Message:    err.Error(),
+			Data:       nil,
 		})
 	}
 
-	user.Password = ""
+	//gen token
+	token, err := security.GenToken(user)
+	if err != nil {
+		log.Error(err)
+		return c.JSON(http.StatusInternalServerError, model.Response{
+			StatusCode: http.StatusInternalServerError,
+			Message:    err.Error(),
+			Data:       nil,
+		})
+	}
+	user.Token = token
+
 	return c.JSON(http.StatusOK, model.Response{
 		StatusCode: http.StatusOK,
-		Message: "Success!",
-		Data: user,
+		Message:    "Success!",
+		Data:       user,
 	})
 }
 
 func (u *UserHandler) HandleSignIn(c echo.Context) error {
 	req := req.RepSignIn{}
-
 	if err := c.Bind(&req); err != nil {
 		log.Error(err.Error())
 		return c.JSON(http.StatusBadRequest, model.Response{
 			StatusCode: http.StatusBadRequest,
-			Message: err.Error(),
-			Data: nil,
+			Message:    err.Error(),
+			Data:       nil,
 		})
 	}
 
-	validate := validator.New()
-	if err := validate.Struct(req); err != nil {
+	if err := c.Validate(req); err != nil {
 		log.Error(err.Error())
 		return c.JSON(http.StatusBadRequest, model.Response{
 			StatusCode: http.StatusBadRequest,
-			Message: err.Error(),
-			Data: nil,
+			Message:    err.Error(),
+			Data:       nil,
 		})
 	}
 
@@ -102,8 +109,8 @@ func (u *UserHandler) HandleSignIn(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusUnauthorized, model.Response{
 			StatusCode: http.StatusUnauthorized,
-			Message: err.Error(),
-			Data: nil,
+			Message:    err.Error(),
+			Data:       nil,
 		})
 	}
 
@@ -112,14 +119,30 @@ func (u *UserHandler) HandleSignIn(c echo.Context) error {
 	if !isTheSame {
 		return c.JSON(http.StatusUnauthorized, model.Response{
 			StatusCode: http.StatusUnauthorized,
-			Message: "Fail to Login",
-			Data: nil,
+			Message:    "Fail to Login",
+			Data:       nil,
 		})
 	}
 
+	//gen token
+	token, err := security.GenToken(user)
+	if err != nil {
+		log.Error(err)
+		return c.JSON(http.StatusInternalServerError, model.Response{
+			StatusCode: http.StatusInternalServerError,
+			Message:    err.Error(),
+			Data:       nil,
+		})
+	}
+	user.Token = token
+
 	return c.JSON(http.StatusOK, model.Response{
 		StatusCode: http.StatusOK,
-		Message: "Success to login",
-		Data: user,
+		Message:    "Success to login",
+		Data:       user,
 	})
+}
+
+func (u *UserHandler) Profile(c echo.Context) error {
+	return nil
 }
