@@ -1,0 +1,1 @@
+time="2020-05-25T15:02:23.937584+07:00" level=error msg="code=400, message=json: Unmarshal(non-pointer req.ReqSignUp), internal=json: Unmarshal(non-pointer req.ReqSignUp)" file=/Users/hoangminh/Documents/Golang/backend-github-trending/handler/user_handler.go line=34

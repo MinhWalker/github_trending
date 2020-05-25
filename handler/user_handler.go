@@ -17,6 +17,17 @@ type UserHandler struct {
 	UserRepo repository.UserRepo
 }
 
+// SignUp godoc
+// @Summary Create new account
+// @Tags user-service
+// @Accept  json
+// @Produce  json
+// @Param data body req.ReqSignUp true "user"
+// @Success 200 {object} model.Response
+// @Failure 400 {object} model.Response
+// @Failure 404 {object} model.Response
+// @Failure 500 {object} model.Response
+// @Router /user/sign-up [post]
 func (u *UserHandler) HandleSignup(c echo.Context) error {
 	req := req.ReqSignUp{}
 	if err := c.Bind(&req); err != nil {
@@ -87,6 +98,17 @@ func (u *UserHandler) HandleSignup(c echo.Context) error {
 	})
 }
 
+// SignIn godoc
+// @Summary access user login
+// @Tags user-service
+// @Accept  json
+// @Produce  json
+// @Param data body req.RepSignIn true "user"
+// @Success 200 {object} model.Response
+// @Failure 400 {object} model.Response
+// @Failure 401 {object} model.Response
+// @Failure 500 {object} model.Response
+// @Router /user/sign-in [post]
 func (u *UserHandler) HandleSignIn(c echo.Context) error {
 	req := req.RepSignIn{}
 	if err := c.Bind(&req); err != nil {
@@ -145,6 +167,15 @@ func (u *UserHandler) HandleSignIn(c echo.Context) error {
 	})
 }
 
+// Profile godoc
+// @Summary get user profile
+// @Tags user-service
+// @Accept  json
+// @Produce  json
+// @Security jwt
+// @Success 200 {object} model.Response
+// @Failure 500 {object} model.Response
+// @Router /user/profile [get]
 func (u *UserHandler) Profile(c echo.Context) error {
 	tokenData := c.Get("user").(*jwt.Token)
 	claims := tokenData.Claims.(*model.JwtCustomClaims)
@@ -154,21 +185,70 @@ func (u *UserHandler) Profile(c echo.Context) error {
 		if err == exception.UserNotFound {
 			return c.JSON(http.StatusNotFound, model.Response{
 				StatusCode: http.StatusNotFound,
-				Message:    "Success to login",
-				Data:       user,
+				Message:    "User not found!",
+				Data:       nil,
 			})
 		}
 
 		return c.JSON(http.StatusInternalServerError, model.Response{
 			StatusCode: http.StatusInternalServerError,
-			Message:    "Success to login",
-			Data:       user,
+			Message:    err.Error(),
+			Data:       nil,
 		})
 	}
 
 	return c.JSON(http.StatusOK, model.Response{
 		StatusCode: http.StatusOK,
 		Message:    "Success!",
+		Data:       user,
+	})
+}
+
+// UpdateProfile godoc
+// @Summary get user profile
+// @Tags user-service
+// @Accept  json
+// @Produce  json
+// @Param data body req.ReqUpdateUser true "user"
+// @Security jwt
+// @Success 200 {object} model.Response
+// @Failure 500 {object} model.Response
+// @Router /user/profile/update [put]
+func (u *UserHandler) UpdateProfile(c echo.Context) error {
+	req := req.ReqUpdate{}
+
+	if err := c.Bind(&req); err != nil {
+		return err
+	}
+
+	// validate thông tin gửi lên
+	err := c.Validate(req)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, model.Response{
+			StatusCode: http.StatusBadRequest,
+			Message:    err.Error(),
+		})
+	}
+
+	tokenData := c.Get("user").(*jwt.Token)
+	claims := tokenData.Claims.(*model.JwtCustomClaims)
+	user := model.User{
+		UserId:   claims.UserId,
+		FullName: req.FullName,
+		Email:    req.Email,
+	}
+
+	user, err = u.UserRepo.UpdateUser(c.Request().Context(), user)
+	if err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, model.Response{
+			StatusCode: http.StatusUnprocessableEntity,
+			Message:    err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusCreated, model.Response{
+		StatusCode: http.StatusCreated,
+		Message:    "Xử lý thành công",
 		Data:       user,
 	})
 }

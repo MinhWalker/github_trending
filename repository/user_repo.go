@@ -7,8 +7,11 @@ import (
 )
 
 type UserRepo interface {
+	//user
 	SaveUser(ctx context.Context, user model.User) (model.User, error)
-	SelectUserById(ctx context.Context, userId string) (model.User, error)
-
 	CheckLogin(ctx context.Context, loginReq req.RepSignIn) (model.User, error)
+
+	//profile
+	SelectUserById(ctx context.Context, userId string) (model.User, error)
+	UpdateUser(context context.Context, user model.User) (model.User, error)
 }
