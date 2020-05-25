@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-const SECRET_KEY = "dgdsgsdgf3fdsf3dwdw"
+const JWT_KEY = "hhhgfdshgfhsdgfshjgfshjdgf"
 
 func GenToken(user model.User) (string, error) {
 	claims := &model.JwtCustomClaims{
@@ -17,11 +17,13 @@ func GenToken(user model.User) (string, error) {
 		},
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims) //gen token, insert algorithm
-	tokenString, err := token.SignedString([]byte(SECRET_KEY))      //ma hoa token
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, err := token.SignedString([]byte(JWT_KEY))
 	if err != nil {
 		return "", err
 	}
 
 	return tokenString, nil
 }
+
+

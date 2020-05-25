@@ -1,11 +1,13 @@
 package handler
 
 import (
+	"backend-github-trending/exception"
 	"backend-github-trending/log"
 	"backend-github-trending/model"
 	req "backend-github-trending/model/req"
 	"backend-github-trending/repository"
 	"backend-github-trending/security"
+	"github.com/dgrijalva/jwt-go"
 	uuid "github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"net/http"
@@ -144,5 +146,29 @@ func (u *UserHandler) HandleSignIn(c echo.Context) error {
 }
 
 func (u *UserHandler) Profile(c echo.Context) error {
-	return nil
+	tokenData := c.Get("user").(*jwt.Token)
+	claims := tokenData.Claims.(*model.JwtCustomClaims)
+
+	user, err := u.UserRepo.SelectUserById(c.Request().Context(), claims.UserId)
+	if err != nil {
+		if err == exception.UserNotFound {
+			return c.JSON(http.StatusNotFound, model.Response{
+				StatusCode: http.StatusNotFound,
+				Message:    "Success to login",
+				Data:       user,
+			})
+		}
+
+		return c.JSON(http.StatusInternalServerError, model.Response{
+			StatusCode: http.StatusInternalServerError,
+			Message:    "Success to login",
+			Data:       user,
+		})
+	}
+
+	return c.JSON(http.StatusOK, model.Response{
+		StatusCode: http.StatusOK,
+		Message:    "Success!",
+		Data:       user,
+	})
 }
