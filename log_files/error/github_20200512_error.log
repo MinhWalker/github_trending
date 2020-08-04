@@ -1,1 +1,0 @@
-time="2020-05-12T23:47:11.433177+07:00" level=error msg="sql: no rows in result set" file=/Users/hoangminh/Documents/Golang/backend-github-trending/main.go line=35

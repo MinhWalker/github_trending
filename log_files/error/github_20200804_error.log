@@ -1,0 +1,1 @@
+time="2020-08-04T10:11:06.566059+07:00" level=error msg="FullName là bắt buộc" file=/Users/hoangminh/Documents/Golang/backend-github-trending/handler/user_handler.go line=43
