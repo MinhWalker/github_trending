@@ -24,7 +24,7 @@ func main() {
 		Host:     "localhost",
 		Port:     5432,
 		UserName: "postgres",
-		Password: "020899",
+		Password: "123456a@",
 		DbName:   "golang",
 	}
 	sql.Connect()
@@ -42,9 +42,14 @@ func main() {
 		UserRepo: repo_impl.NewUserRepo(sql),
 	}
 
+	repoHandler := handler.RepoHandler{
+		GithubRepo: repo_impl.NewGithubRepo(sql),
+	}
+
 	api := router.API{
 		Echo:        e,
 		UserHandler: userHandler,
+		RepoHandler: repoHandler,
 	}
 
 	api.SetupRouter()

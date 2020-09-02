@@ -16,7 +16,7 @@ require (
 	github.com/lib/pq v1.5.2
 	github.com/pkg/errors v0.8.1
 	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5
-	github.com/rubenv/sql-migrate v0.0.0-20200429072036-ae26b214fa43 // indirect
+	github.com/rubenv/sql-migrate v0.0.0-20200616145509-8d140a17f351 // indirect
 	github.com/sirupsen/logrus v1.6.0
 	golang.org/x/crypto v0.0.0-20200510223506-06a226fb4e37
 )

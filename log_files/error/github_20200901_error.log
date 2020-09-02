@@ -1,0 +1,14 @@
+time="2020-09-01T09:55:15.522734+07:00" level=error msg="pq: relation \"users\" does not exist" file=/Users/mac/Documents/minhdt/Go/github_trending/repository/repo_impl/user_repo_impl.go line=37
+time="2020-09-01T10:34:32.761372+07:00" level=error msg="pq: relation \"users\" does not exist" file=/Users/mac/Documents/minhdt/Go/github_trending/repository/repo_impl/user_repo_impl.go line=37
+time="2020-09-01T10:34:51.223318+07:00" level=error msg="pq: relation \"users\" does not exist" file=/Users/mac/Documents/minhdt/Go/github_trending/repository/repo_impl/user_repo_impl.go line=37
+time="2020-09-01T10:49:14.528316+07:00" level=error msg="pq: relation \"users\" does not exist" file=/Users/mac/Documents/minhdt/Go/github_trending/repository/repo_impl/user_repo_impl.go line=37
+time="2020-09-01T10:49:31.186338+07:00" level=error msg="pq: relation \"users\" does not exist" file=/Users/mac/Documents/minhdt/Go/github_trending/repository/repo_impl/user_repo_impl.go line=37
+time="2020-09-01T10:49:46.71602+07:00" level=error msg="pq: relation \"users\" does not exist" file=/Users/mac/Documents/minhdt/Go/github_trending/repository/repo_impl/user_repo_impl.go line=37
+time="2020-09-01T10:49:54.309634+07:00" level=error msg="pq: relation \"users\" does not exist" file=/Users/mac/Documents/minhdt/Go/github_trending/repository/repo_impl/user_repo_impl.go line=37
+time="2020-09-01T10:53:53.767159+07:00" level=error msg="pq: relation \"users\" does not exist" file=/Users/mac/Documents/minhdt/Go/github_trending/repository/repo_impl/user_repo_impl.go line=37
+time="2020-09-01T11:00:18.656784+07:00" level=error msg="pq: relation \"users\" does not exist" file=/Users/mac/Documents/minhdt/Go/github_trending/repository/repo_impl/user_repo_impl.go line=37
+time="2020-09-01T11:01:04.071556+07:00" level=error msg="FullName là bắt buộc" file=/Users/mac/Documents/minhdt/Go/github_trending/handler/user_handler.go line=43
+time="2020-09-01T11:01:20.08188+07:00" level=error msg="code=400, message=Syntax error: offset=28, error=invalid character '\"' after object key:value pair, internal=invalid character '\"' after object key:value pair" file=/Users/mac/Documents/minhdt/Go/github_trending/handler/user_handler.go line=34
+time="2020-09-01T11:01:25.64521+07:00" level=error msg="pq: relation \"users\" does not exist" file=/Users/mac/Documents/minhdt/Go/github_trending/repository/repo_impl/user_repo_impl.go line=37
+time="2020-09-01T11:05:05.740143+07:00" level=error msg="pq: column \"user_id\" of relation \"users\" does not exist" file=/Users/mac/Documents/minhdt/Go/github_trending/repository/repo_impl/user_repo_impl.go line=37
+time="2020-09-01T11:14:57.568874+07:00" level=error msg="pq: column \"user_id\" of relation \"users\" does not exist" file=/Users/mac/Documents/minhdt/Go/github_trending/repository/repo_impl/user_repo_impl.go line=37
