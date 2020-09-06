@@ -24,7 +24,7 @@ func main() {
 		Host:     "localhost",
 		Port:     5432,
 		UserName: "postgres",
-		Password: "123456a@",
+		Password: "1234",
 		DbName:   "golang",
 	}
 	sql.Connect()
