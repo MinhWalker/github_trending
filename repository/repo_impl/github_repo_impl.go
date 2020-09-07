@@ -25,7 +25,7 @@ func NewGithubRepo(sql *db.Sql) repository.GithubRepo {
 func (g GithubRepoImpl) SelectRepoByName(context context.Context, name string) (model.GithubRepo, error) {
 	var repo = model.GithubRepo{}
 	err := g.sql.Db.GetContext(context, &repo,
-			`SELECT * FROM repos WHERE name=$1`, name)
+		`SELECT * FROM repos WHERE name=$1`, name)
 
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -38,14 +38,15 @@ func (g GithubRepoImpl) SelectRepoByName(context context.Context, name string) (
 }
 
 func (g GithubRepoImpl) SaveRepo(context context.Context, repo model.GithubRepo) (model.GithubRepo, error) {
-	// name, description, url, color, lang, fork, starts, starts_today, build_by, created_at, update_at
+	// name, description, url, color, lang, fork, stars, stars_today, build_by, created_at, updated_at
 	statement := `INSERT INTO repos(
-									name, description, url, color, lang, fork, starts, starts_today
-									build_by, created_at, update_at)
-					VALUES(
-									:name, :description, :url, :color, :lang, :fork, :starts, :starts_today
-									:build_by, :created_at, :update_at
-							)`
+					name, description, url, color, lang, fork, stars, 
+ 			        stars_today, build_by, created_at, updated_at) 
+          		  VALUES(
+					:name,:description, :url, :color, :lang, :fork, :stars, 
+					:stars_today, :build_by, :created_at, :updated_at
+				  )`
+
 	repo.CreatedAt = time.Now()
 	repo.UpdatedAt = time.Now()
 
@@ -57,6 +58,7 @@ func (g GithubRepoImpl) SaveRepo(context context.Context, repo model.GithubRepo)
 			}
 		}
 		log.Error(err.Error())
+		return repo, exception.RepoInsertFail
 	}
 
 	return repo, nil
@@ -115,4 +117,63 @@ func (g GithubRepoImpl) UpdateRepo(context context.Context, repo model.GithubRep
 	}
 
 	return repo, nil
+}
+
+func (g GithubRepoImpl) SelectAllBookmarks(context context.Context, userId string) ([]model.GithubRepo, error) {
+	repos := []model.GithubRepo{}
+	err := g.sql.Db.SelectContext(context, &repos,
+		`SELECT 
+					repos.name, repos.description, repos.url, 
+					repos.color, repos.lang, repos.fork, repos.stars, 
+					repos.stars_today, repos.build_by, true as bookmarked
+				FROM bookmarks 
+				INNER JOIN repos
+				ON bookmarks.user_id=$1 AND repos.name = bookmarks.repo_name`, userId)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return repos, exception.BookmarkNotFound
+		}
+		log.Error(err.Error())
+		return repos, err
+	}
+	return repos, nil
+}
+
+func (g GithubRepoImpl) Bookmark(context context.Context, bid, nameRepo, userId string) error {
+	statement := `INSERT INTO bookmarks(
+					bid, user_id, repo_name, created_at, updated_at) 
+          		  VALUES($1, $2, $3, $4, $5)`
+
+	now := time.Now()
+	_, err := g.sql.Db.ExecContext(
+		context, statement, bid, userId,
+		nameRepo, now, now)
+
+	if err != nil {
+		if err, ok := err.(*pq.Error); ok {
+			if err.Code.Name() == "unique_violation" {
+				return exception.BookmarkConflic
+			}
+		}
+		log.Error(err.Error())
+		return exception.BookmarkFail
+	}
+
+	return nil
+}
+
+func (g GithubRepoImpl) DelBookmark(context context.Context, nameRepo, userId string) error {
+	result := g.sql.Db.MustExecContext(
+		context,
+		"DELETE FROM bookmarks WHERE repo_name = $1 AND user_id = $2",
+		nameRepo, userId)
+
+	_, err := result.RowsAffected()
+	if err != nil {
+		log.Error(err.Error())
+		return exception.DelBookmarkFail
+	}
+
+	return nil
 }

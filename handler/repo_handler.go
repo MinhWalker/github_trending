@@ -13,7 +13,7 @@ type RepoHandler struct {
 	GithubRepo repository.GithubRepo
 }
 
-func (r *RepoHandler) RepoTrending(c echo.Context) error {
+func (r RepoHandler) RepoTrending(c echo.Context) error {
 	token := c.Get("user").(*jwt.Token)
 	claims := token.Claims.(*model.JwtCustomClaims)
 
@@ -24,7 +24,7 @@ func (r *RepoHandler) RepoTrending(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, model.Response{
 		StatusCode: http.StatusOK,
-		Message: 	"Success!",
-		Data:		repos,
+		Message:    "Xử lý thành công",
+		Data:       repos,
 	})
 }

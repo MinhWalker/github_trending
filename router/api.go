@@ -24,5 +24,5 @@ func (api *API) SetupRouter() {
 
 	// github repo
 	github := api.Echo.Group("/github", middleware.JWTMiddleware())
-	github.GET("trending", api.RepoHandler.RepoTrending)
+	github.GET("/trending", api.RepoHandler.RepoTrending)
 }
