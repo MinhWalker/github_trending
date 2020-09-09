@@ -12,4 +12,7 @@ type GithubRepo interface {
 	UpdateRepo(context context.Context, user model.GithubRepo) (model.GithubRepo, error)
 
 	//Bookmark
+	SelectAllBookmarks(context context.Context, userId string) ([]model.GithubRepo, error)
+	InsertBookmark(context context.Context, bid, nameRepo, userId string) error
+	DelBookmark(context context.Context, nameRepo, userId string) error
 }

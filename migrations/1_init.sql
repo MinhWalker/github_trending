@@ -28,10 +28,11 @@ CREATE TABLE "bookmarks" (
     "user_id" text,
     "repo_name" text,
     "created_at" TIMESTAMPTZ NOT NULL,
-    "updated_at" TIMESTAMPTZ NOT NULL
+    "updated_at" TIMESTAMPTZ NOT NULL,
+    unique (user_id, repo_name)
 );
 
-ALTER TABLE "bookmarks" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
+-- ALTER TABLE "bookmarks" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
 ALTER TABLE "bookmarks" ADD FOREIGN KEY ("repo_name") REFERENCES "repos" ("name");
 
 -- +migrate Down

@@ -140,7 +140,7 @@ func (g GithubRepoImpl) SelectAllBookmarks(context context.Context, userId strin
 	return repos, nil
 }
 
-func (g GithubRepoImpl) Bookmark(context context.Context, bid, nameRepo, userId string) error {
+func (g GithubRepoImpl) InsertBookmark(context context.Context, bid, nameRepo, userId string) error {
 	statement := `INSERT INTO bookmarks(
 					bid, user_id, repo_name, created_at, updated_at) 
           		  VALUES($1, $2, $3, $4, $5)`
