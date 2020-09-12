@@ -16,6 +16,15 @@ type RepoHandler struct {
 	GithubRepo repository.GithubRepo
 }
 
+// RepoTrending godoc
+// @Summary Get all repo Trending on
+// @Tags -service
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} model.Response
+// @Router /github/trending [GET]
+// @return Repo trending
+
 func (r RepoHandler) RepoTrending(c echo.Context) error {
 	token := c.Get("user").(*jwt.Token)
 	claims := token.Claims.(*model.JwtCustomClaims)
@@ -32,6 +41,14 @@ func (r RepoHandler) RepoTrending(c echo.Context) error {
 	})
 }
 
+// RepoTrending godoc
+// @Summary Get all repo Trending on
+// @Tags -service
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} model.Response
+// @Router /github/trending [GET]
+// @return Repo trending
 func (r RepoHandler) SelectBookmarks(c echo.Context) error {
 	token := c.Get("user").(*jwt.Token)
 	claims := token.Claims.(*model.JwtCustomClaims)
@@ -44,6 +61,18 @@ func (r RepoHandler) SelectBookmarks(c echo.Context) error {
 		Data: repos,
 	})
 }
+
+// InSertBookmark godoc
+// @Summary Insert Repo to bookmark table
+// @Tags -service
+// @Accept  json
+// @Produce  json
+// @Param data body req.ReqBookmark true "GithubRepo"
+// @Success 200 {object} model.Response
+// @Success 403 {object} model.Response
+// @Success 400 {object} model.Response
+// @Success 500 {object} model.Response
+// @Router /bookmark/add [POST]
 
 func (r RepoHandler) InsertBookmark(c echo.Context) error {
 	req := req.ReqBookmark{}
@@ -93,6 +122,17 @@ func (r RepoHandler) InsertBookmark(c echo.Context) error {
 		Data:       nil,
 	})
 }
+
+// DelBookmark godoc
+// @Summary Insert Repo to bookmark table
+// @Tags -service
+// @Accept  json
+// @Produce  json
+// @Param data body req.ReqBookmark true "GithubRepo"
+// @Success 200 {object} model.Response
+// @Success 400 {object} model.Response
+// @Success 500 {object} model.Response
+// @Router /bookmark/add [POST]
 
 func (r RepoHandler) DelBookmark(c echo.Context) error {
 	req := req.ReqBookmark{}
