@@ -124,7 +124,7 @@ func (r RepoHandler) InsertBookmark(c echo.Context) error {
 }
 
 // DelBookmark godoc
-// @Summary Insert Repo to bookmark table
+// @Summary Delete Repo to bookmark table
 // @Tags -service
 // @Accept  json
 // @Produce  json
@@ -132,7 +132,7 @@ func (r RepoHandler) InsertBookmark(c echo.Context) error {
 // @Success 200 {object} model.Response
 // @Success 400 {object} model.Response
 // @Success 500 {object} model.Response
-// @Router /bookmark/add [POST]
+// @Router /bookmark/delete [DELETE]
 
 func (r RepoHandler) DelBookmark(c echo.Context) error {
 	req := req.ReqBookmark{}
