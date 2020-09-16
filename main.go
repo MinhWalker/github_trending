@@ -9,13 +9,12 @@ import (
 	"backend-github-trending/router"
 	"fmt"
 	"github.com/labstack/echo/v4"
-	"os"
 	"time"
 )
 
 //call before main
 func init() {
-	os.Setenv("APP_NAME", "github") //environment variable
+	//os.Setenv("APP_NAME", "github") //environment variable
 	log.InitLogger(false)
 }
 
@@ -23,7 +22,7 @@ func main() {
 
 	//connect db
 	sql := &db.Sql{
-		Host:     "localhost",
+		Host:     "host.docker.internal",	//localhost
 		Port:     5432,
 		UserName: "postgres",
 		Password: "1234",
