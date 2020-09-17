@@ -22,8 +22,8 @@ func main() {
 
 	//connect db
 	sql := &db.Sql{
-		Host:     "host.docker.internal",	//localhost
-		Port:     7777,
+		Host:     "35.221.222.42",	//localhost
+		Port:     5432,
 		UserName: "postgres",
 		Password: "1234",
 		DbName:   "golang",

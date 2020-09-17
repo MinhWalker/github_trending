@@ -1,0 +1,11 @@
+steps:
+  - name: 'web-service'
+    volumes:
+      - name: 'api'
+      - path: '/go/src/app'
+    env:
+      - DB_USER
+      - DB_PASSWORD
+      - DB_NAME
+    entrypoint: ['docker-compose', 'up']
+
