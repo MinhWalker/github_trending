@@ -9,12 +9,14 @@ import (
 	"backend-github-trending/router"
 	"fmt"
 	"github.com/labstack/echo/v4"
+	"os"
 	"time"
 )
 
 //call before main
 func init() {
-	//os.Setenv("APP_NAME", "github") //environment variable
+	fmt.Println("PRODUCTION ENVIROMENT")
+	os.Setenv("APP_NAME", "github")
 	log.InitLogger(false)
 }
 

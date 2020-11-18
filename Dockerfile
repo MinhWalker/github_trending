@@ -17,7 +17,6 @@ RUN go mod init backend-github-trending
 WORKDIR cmd/pro
 RUN GOOS=linux go build -o app
 
-RUN chmod +x ./app
 ENTRYPOINT ["./app"]
 
 EXPOSE 3000

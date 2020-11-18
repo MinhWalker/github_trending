@@ -1,19 +1,6 @@
-version: '3'
+version: '2'
 
 services:
-#  db:
-#    image: postgres:latest
-#    environment:
-#      - POSTGRES_USER=${DB_USER}
-#      - POSTGRES_PASSWORD=${DB_PASSWORD}
-#      - POSTGRES_DB=${DB_NAME}
-#    volumes:
-#      - database_postgres:/var/lib/postgresql/data
-#    ports:
-#      - "7777:5432"
-#    networks:
-#      - fullstack
-
   web-service:
     container_name: web-service
     build: .
@@ -22,21 +9,4 @@ services:
       - "3000:3000"
     environment:
       - APP_NAME=github
-#    volumes:
-#      - api:/go/src/app
-#    depends_on:
-#      - db
-#    networks:
-#      - fullstack
-
-#volumes:
-#  api:
-#  database_postgres:
-#
-## Networks to be created to facilitate communication between containers
-#networks:
-#  fullstack:
-#    driver: bridge
-
-
 
