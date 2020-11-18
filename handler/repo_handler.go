@@ -54,6 +54,9 @@ func (r RepoHandler) SelectBookmarks(c echo.Context) error {
 	claims := token.Claims.(*model.JwtCustomClaims)
 
 	repos, _ := r.GithubRepo.SelectAllBookmarks(c.Request().Context(), claims.UserId)
+	for i, repo := range repos {
+		repos[i].Contributors = strings.Split(repo.BuildBy, ",")
+	}
 
 	return c.JSON(http.StatusOK, model.Response{
 		StatusCode: http.StatusOK,

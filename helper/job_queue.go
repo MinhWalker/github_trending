@@ -56,7 +56,7 @@ func (q *JobQueue) Start() {
 	go q.dispatch()
 }
 
-// Stop - stops the workers and dispatcher routine
+// Stop - stops the workers and ispatcher routine
 func (q *JobQueue) Stop() {
 	q.quit <- true
 	q.dispatcherStopped.Wait()
