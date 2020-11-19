@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 
 services:
   web-service:
@@ -9,4 +9,20 @@ services:
       - "3000:3000"
     environment:
       - APP_NAME=github
+
+#version: "2"
+#
+#services:
+#  web-service:
+#    container_name: web-service
+#    image: golang:1.6.1-alpine
+#    volumes:
+#      - .:/go/src/backend-github-trending
+#    working_dir: /go/src/backend-github-trending
+#    command: go run ./cmd/pro/main.go
+#    ports:
+#      - "3000:3000"
+#    environment:
+#      - APP_NAME=github
+
 

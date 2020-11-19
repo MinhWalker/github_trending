@@ -1,4 +1,4 @@
-package pro
+package main
 
 import (
 	"backend-github-trending/db"
